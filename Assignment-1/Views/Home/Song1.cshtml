@@ -1,0 +1,30 @@
+@* @{
+ViewData["Title"] = "Song 1";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>@ViewData["Data"]</p> *@
+
+
+@{
+    ViewData["Title"] = "Sky Full Of Stars";
+
+    // Assuming "Data" is a string containing the JSON data
+    dynamic jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject(ViewData["Data"].ToString());
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    @if (jsonData["lyrics"] is Newtonsoft.Json.Linq.JArray lyricsArray)
+    {
+        foreach (var line in lyricsArray)
+        {
+            <p>@Html.Raw(line.ToString())</p>
+        }
+    }
+    else
+    {
+        <p>Error: Lyrics data is not in the expected format</p>
+    }
+</div>
